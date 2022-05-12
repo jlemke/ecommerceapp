@@ -121,7 +121,7 @@ async function getItems(){
 
 app.post('/products', async function(req, res) {
   const { body } = req
-  const { event } = req.apiGateway
+  const { event } = req.apiGateway //Contains user identity in attributes
   try {
     await canPerformAction(event, 'Admin')
     const input = { ...body, id: uuid() }
@@ -151,17 +151,22 @@ app.put('/products/*', function(req, res) {
 });
 
 /****************************
-* Example delete method *
+* delete method *
 ****************************/
 
-app.delete('/products', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
-});
-
-app.delete('/products/*', function(req, res) {
-  // Add your code here
-  res.json({success: 'delete call succeed!', url: req.url});
+app.delete('/products', async function(req, res) {
+  const { event } = req.apiGateway // 
+  try {
+    await canPerformAction(event, 'Admin') //check if user is authorized
+    var params = {
+      TableName : ddb_table_name,
+      Key: { id: req.body.id }
+    }
+    await docClient.delete(params).promise()
+    res.json({ success: 'successfully deleted item' })
+  } catch (err) {
+    res.json({ error: err })
+  }
 });
 
 app.listen(3000, function() {
