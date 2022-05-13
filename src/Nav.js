@@ -15,7 +15,13 @@ import { Hub } from 'aws-amplify';
 import { checkUser } from './checkUser';
 
 
-export const Nav = ({ current }) => {
+export const Nav = () => {
+
+  // TODO check that this is working correctly
+  // Also changed keys by adding '/' in front of paths
+  const location = useLocation();
+  const pathkey = location.pathname;
+  console.log(pathkey);
 
   const [user, updateUser] = useState({});
 
@@ -41,11 +47,11 @@ export const Nav = ({ current }) => {
   return (
     <div>
       <Menu 
-        selectedKeys={[current]} 
+        selectedKeys={[pathkey]} 
         mode="horizontal"
       >
         <Menu.Item 
-          key='home'
+          key=''
         >
           <Link 
             to={`/`}
@@ -55,7 +61,7 @@ export const Nav = ({ current }) => {
           </Link>
         </Menu.Item>
         <Menu.Item 
-          key='profile'
+          key='/profile'
         >
           <Link 
             to='/profile'
@@ -67,7 +73,7 @@ export const Nav = ({ current }) => {
         {
           user.isAuthorized && (
             <Menu.Item 
-              key='admin'
+              key='/admin'
             >
               <Link 
                 to='/admin'
