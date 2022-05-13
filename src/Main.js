@@ -14,11 +14,13 @@ export const Main = () => {
   const [user, updateUser] = useState({});
 
   let didCancel = false;
+  
   useEffect(
     () => {
       getProducts();
       checkUser(updateUser);
-      return () => didCancel = true;
+      
+      //return () => didCancel = true;
     }, []
   );
 
@@ -26,8 +28,9 @@ export const Main = () => {
     const data = await API.get('ecommerceapi', '/products');
     console.log('data: ', data);
 
-    if (didCancel) return;
+    console.log("didCancel: " + didCancel);
 
+    if (didCancel) return;
     // update products
     setState({
       products: data.data.Items, 
@@ -65,7 +68,6 @@ export const Main = () => {
   
   return (
     <Container>
-      Test
       <List
         itemLayout="horizontal"
         dataSource={state.products}
@@ -73,8 +75,8 @@ export const Main = () => {
         renderItem={item => (
           <List.Item
             actions={user.isAuthorized ?
-              [<p onClick={() => deleteItem(item.id)}
-              key={item.id}>delete</p>] : null}
+              [<a onClick={() => deleteItem(item.id)}
+              key={item.id}>delete</a>] : null}
           >
             <List.Item.Meta
               title={item.name}
