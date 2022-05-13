@@ -1,6 +1,8 @@
 import { Auth } from 'aws-amplify';
 
-const checkUser = async (updateUser) => {
+
+// Takes a hook function as a parameter
+export const checkUser = async (updateUser) => {
 
   const userData = await Auth
     .currentSession()
@@ -26,5 +28,3 @@ const checkUser = async (updateUser) => {
     isAuthorized
   });
 };
-
-export default checkUser;
