@@ -1,9 +1,12 @@
 import React, { 
   useState, 
-  useEffect 
+  useEffect,
 } from 'react';
 
-import { Link } from 'react-router-dom';
+import { 
+  Link, 
+  useLocation
+} from 'react-router-dom';
 import { Menu } from 'antd';
 import { 
   HomeOutlined, 
@@ -20,6 +23,7 @@ export const Nav = () => {
   // TODO check that this is working correctly
   // Also changed keys by adding '/' in front of paths
   const location = useLocation();
+
   const pathkey = location.pathname;
   console.log(pathkey);
 
@@ -51,7 +55,7 @@ export const Nav = () => {
         mode="horizontal"
       >
         <Menu.Item 
-          key=''
+          key='/'
         >
           <Link 
             to={`/`}
